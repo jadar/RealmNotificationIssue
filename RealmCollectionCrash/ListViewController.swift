@@ -49,7 +49,9 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidAppear(animated)
        
         // This appears to be necessary to trigger the issue. Without this, the issue doesn't happen until another write triggers the "delayed" update.
-        backgroundQueue.asyncAfter(deadline: .now() + .seconds(1)) {
+        // It doesn't matter if it happens "now" or in one second.
+//        backgroundQueue.asyncAfter(deadline: .now() + .seconds(1)) {
+        backgroundQueue.async {
             autoreleasepool {
                 let backgroundRealm = try! Realm()
                 try! backgroundRealm.write {
